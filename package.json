@@ -1,13 +1,21 @@
 {
   "name": "discord_chzzk_live",
   "version": "1.0.0",
+  "author": "LukeNightstar",
   "license": "MIT",
+  "scripts": {
+    "start" : "node dist/app.js",
+    "dev" : "ts-node-dev ./src/app.ts",
+    "build" : "tsc"
+  },
   "dependencies": {
-    "@types/node": "^20.10.6",
     "chzzk": "^1.0.11",
     "discord.js": "^14.14.1",
     "dotenv": "^16.3.1",
-    "mongoose": "^8.0.3",
+    "mongoose": "^8.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.6",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "tsc": "^2.0.4",
