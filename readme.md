@@ -21,6 +21,7 @@ npm i
 ### 개발 환경
 - discord.js v14
 - mongoDB
+- TypeScript
 - [chzzk 비공식 API](https://github.com/kimcore/chzzk)
 - [CloudType](https://cloudtype.io/)
 
