@@ -1,0 +1,19 @@
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+
+### env ###
+.env
+.env*.local
+.env!/
+
+### system ###
+dist
+
+### NPM lib ###
+/node_modules/
+
+### VS Code ###
+.vscode/
