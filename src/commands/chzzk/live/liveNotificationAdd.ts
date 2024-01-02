@@ -29,8 +29,15 @@ export async function LiveNotificationAdd({
         }
 
         const chzzkClient = new ChzzkClient();
-
         const liveDetail = await chzzkClient.live.detail(chzzkId);
+
+        if (!liveDetail) {
+            await commandInteraction.followUp({
+                content: '채널 정보를 읽어오는데 오류가 발생했습니다. Chzzk ID를 확인해주세요.',
+                ephemeral: true
+            });
+            return;
+        }
 
         const chzzkNotificationConfig = new ChzzkLiveModel({
             guildId: commandInteraction.guildId,
@@ -44,7 +51,7 @@ export async function LiveNotificationAdd({
         });
 
         const chzzkUrl = `https://chzzk.naver.com/live/${chzzkId}`;
-        const profileImage = liveDetail.channel.channelImageUrl || '';
+        const profileImage = liveDetail.channel.channelImageUrl;
         const channelName = liveDetail.channel.channelName;
 
         chzzkNotificationConfig
@@ -54,7 +61,6 @@ export async function LiveNotificationAdd({
                     .setTitle('**Chzzk 생방송 알림 추가 완료**')
                     .setDescription('Chzzk 생방송 알림이 추가되었습니다!')
                     .setColor('#00FFA3')
-                    .setThumbnail(profileImage)
                     .addFields([
                         {name: '채널명', value: `[${channelName}](${chzzkUrl})`},
                         {name: '알림 설정 채널', value: `<#${notifyChannel}>`}
@@ -63,6 +69,10 @@ export async function LiveNotificationAdd({
                         text: 'CHZZK BETA'
                     })
                     .setTimestamp();
+
+                if (profileImage) {
+                    LiveAddCard.setThumbnail(profileImage);
+                }
 
                 if (customMessage === null) {
                     LiveAddCard.addFields({name: '메세지', value: `지정된 메세지 없음`});
