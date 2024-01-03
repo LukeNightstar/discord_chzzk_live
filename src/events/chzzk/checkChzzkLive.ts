@@ -20,9 +20,6 @@ export async function CheckChzzkLive({
 
             // check time
             notificationConfig.lastChecked = new Date();
-            if (liveDetail.closeDate !== null) {
-                notificationConfig.closeDate = new Date(liveDetail.closeDate + 'Z');
-            }
 
             if (
                 lastOpenDate === null ||
