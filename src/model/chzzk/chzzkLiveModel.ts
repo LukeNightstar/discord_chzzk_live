@@ -8,8 +8,8 @@ interface ChzzkLiveModel extends Document {
     message: string;
     liveId: number;
     lastChecked: Date;
-    openDate: Date | null;
-    closeDate: Date | null;
+    openDate: Date;
+    closeDate: Date;
 }
 
 const ChzzkLiveModelSchema = new Schema<ChzzkLiveModel>(
@@ -19,10 +19,10 @@ const ChzzkLiveModelSchema = new Schema<ChzzkLiveModel>(
         chzzkId: {type: String, required: true},
         channelName: {type: String, required: true},
         message: {type: String, default: null, required: false},
-        liveId: {type: Number, required: false},
+        liveId: {type: Number, default: null},
         lastChecked: {type: Date, required: true},
-        openDate: {type: Date || null, required: false},
-        closeDate: {type: Date || null, required: false},
+        openDate: {type: Date, default: null},
+        closeDate: {type: Date, default: null},
     },
     {
         timestamps: true,
