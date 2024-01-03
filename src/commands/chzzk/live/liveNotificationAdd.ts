@@ -29,9 +29,9 @@ export async function LiveNotificationAdd({
         }
 
         const chzzkClient = new ChzzkClient();
-        const liveDetail = await chzzkClient.live.detail(chzzkId);
+        const channelDetail = await chzzkClient.channel(chzzkId);
 
-        if (!liveDetail) {
+        if (!channelDetail) {
             await commandInteraction.followUp({
                 content: '채널 정보를 읽어오는데 오류가 발생했습니다. Chzzk ID를 확인해주세요.',
                 ephemeral: true
@@ -39,20 +39,22 @@ export async function LiveNotificationAdd({
             return;
         }
 
+        const channelName = channelDetail.channelName;
+
         const chzzkNotificationConfig = new ChzzkLiveModel({
             guildId: commandInteraction.guildId,
             channelId: notifyChannel,
             chzzkId: chzzkId,
+            channelName: channelName,
             message: customMessage,
-            liveId: liveDetail.liveId,
+            liveId: 0,
             lastChecked: new Date(),
-            openDate: liveDetail.openDate,
-            closeDate: liveDetail.closeDate,
+            openDate: null,
+            closeDate: null,
         });
 
-        const chzzkUrl = `https://chzzk.naver.com/live/${chzzkId}`;
-        const profileImage = liveDetail.channel.channelImageUrl;
-        const channelName = liveDetail.channel.channelName;
+        const chzzkUrl = `https://chzzk.naver.com/${chzzkId}`;
+        const profileImage = channelDetail.channelImageUrl;
 
         chzzkNotificationConfig
             .save()
