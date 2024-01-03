@@ -47,10 +47,7 @@ export async function LiveNotificationAdd({
             chzzkId: chzzkId,
             channelName: channelName,
             message: customMessage,
-            liveId: 0,
             lastChecked: new Date(),
-            openDate: null,
-            closeDate: null,
         });
 
         const chzzkUrl = `https://chzzk.naver.com/${chzzkId}`;
