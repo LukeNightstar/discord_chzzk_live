@@ -18,8 +18,14 @@ export async function CheckChzzkLive({
             const lastOpenDate = notificationConfig.openDate;
             const liveDetail = await chzzkClient.live.detail(chzzkId);
 
+            // check time
+            notificationConfig.lastChecked = new Date();
+            if (liveDetail.closeDate !== null) {
+                notificationConfig.closeDate = new Date(liveDetail.closeDate + 'Z');
+            }
+
             if (
-                !lastOpenDate ||
+                lastOpenDate === null ||
                 (new Date(liveDetail.openDate) > new Date(lastOpenDate))
             ) {
                 const targetGuild =
@@ -39,18 +45,21 @@ export async function CheckChzzkLive({
                 }
 
                 notificationConfig.openDate = new Date(liveDetail.openDate + 'Z');
+                if (notificationConfig.liveId !== liveDetail.liveId) {
+                    notificationConfig.liveId = liveDetail.liveId;
+                }
 
                 const streamLiveStatus = liveDetail.status;
 
                 if (streamLiveStatus === 'OPEN') {
                     const channelName = liveDetail.channel.channelName;
-                    const channelLink = `https://chzzk.naver.com/${liveDetail.channel.channelId}`
+                    const channelLink = `https://chzzk.naver.com/${chzzkId}`
                     const channelIconUrl = liveDetail.channel.channelImageUrl!;
 
                     const previewData = liveDetail.liveImageUrl.replace('_{type}', '_1080');
 
                     const streamTitle = liveDetail.liveTitle
-                    const streamLink = `https://chzzk.naver.com/live/${liveDetail.channel.channelId}`
+                    const streamLink = `https://chzzk.naver.com/live/${chzzkId}`
                     const streamCategory = liveDetail.liveCategoryValue
 
                     notificationConfig
